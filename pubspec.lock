@@ -49,14 +49,14 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "2.1.1"
   crypto:
     dependency: transitive
     description:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "2.1.5"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -94,7 +94,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.4"
+    version: "0.12.2"
   http_auth:
     dependency: "direct main"
     description:
@@ -108,7 +108,7 @@ packages:
       name: http_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "3.1.4"
   lints:
     dependency: transitive
     description:
@@ -137,6 +137,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  nativeshell:
+    dependency: "direct main"
+    description:
+      name: nativeshell
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.13"
+  oauth1:
+    dependency: "direct main"
+    description:
+      name: oauth1
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   path:
     dependency: transitive
     description:
@@ -144,6 +158,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.11.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -214,4 +235,4 @@ packages:
     version: "0.2.1"
 sdks:
   dart: ">=2.16.2 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=2.2.1"
