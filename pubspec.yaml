@@ -34,10 +34,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  event: ^2.1.2
+
   http_auth: ^1.0.1
   nativeshell: ^0.1.6
   oauth1: ^1.0.6
   window_manager: ^0.2.1
+
+  eyro_toast: ^1.0.0
 
 dev_dependencies:
   flutter_test:
