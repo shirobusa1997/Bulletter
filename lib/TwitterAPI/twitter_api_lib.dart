@@ -2,8 +2,16 @@ import 'dart:io';
 import 'dart:convert';
 
 // OAuth and HTTP Request
+import 'package:bulletter/UI/config_interface.dart';
+import 'package:event/event.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http_auth/http_auth.dart';
+
+// Window Management
+import 'package:nativeshell/nativeshell.dart';
+
+// Toast notification for debug
+import 'package:eyro_toast/eyro_toast.dart';
 
 // API Key Setting
 import 'package:bulletter/Config/config.dart' as config;
@@ -49,7 +57,26 @@ class TwitterAPIUtil {
 
     // クライアント認証とAPI設定から認証用オブジェクトを作成
     var auth = oauth1.Authorization(clientCredentials, platform);
-  }
 
-  void tweet() async {}
-} // - WORKING
+    // PINを要求
+    await auth.requestTemporaryCredentials('oob').then((res) async {
+      // [USER] Twitter サイト上で認証の上PINコードの入力を要求する
+      final window = await Window.create(TwitterPINRequestWindowState());
+      var event = Event<BulletterPINArgs>();
+      var verifier = "";
+      event.subscribe((args) => verifier);
+      return auth.requestTokenCredentials(res.credentials, verifier);
+    }).then((res) async {
+      // Client オブジェクトを生成
+      var client = oauth1.Client(
+          platform.signatureMethod, clientCredentials, res.credentials);
+      // ユーザ情報にアクセス
+      await EyroToast.showToast(
+          text: 'CurrentUser : ' +
+              res.optionalParameters['screen_name'].toString());
+    });
+  }
+}
+
+void tweet() async {}
+// - WORKING
