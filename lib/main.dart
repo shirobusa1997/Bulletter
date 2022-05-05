@@ -34,71 +34,70 @@ class CommonWindow extends StatelessWidget {
 class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: const MyHomePageState(title: ''));
-  }
-}
+    return MaterialApp(
+      home: DefaultTextStyle(
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        child: WindowWidget(
+          onCreateState: (initData) {
+            WindowState? state;
 
-class MyHomePageState extends StatefulWidget {
-  const MyHomePageState({Key? key, required this.title}) : super(key: key);
+            state ??=
+                configUi.TwitterPINRequestWindowState.fromInitData(initData);
+            state ??= configUi.ConfigWindowState();
 
-  final String title;
-
-  @override
-  State<StatefulWidget> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePageState> {
-  int _counter = 0;
-
-  Window? otherWindow;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Hoge'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+            return state;
+          },
         ),
       ),
-      floatingActionButton: otherWindow == null
-          ? FloatingActionButton(
-              onPressed: () async {
-                final widnow = await Window.create(
-                    configUi.TwitterAuthorizationWindowState.toInitData());
-              },
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
-            )
-          : FloatingActionButton(
-              onPressed: () async {
-                final widnow = await Window.create(
-                    configUi.TwitterAuthorizationWindowState.toInitData());
-              },
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
-            ),
     );
   }
-
-  @override
-  // TODO: implement windowSizingMode
-  WindowSizingMode get windowSizingMode => throw UnimplementedError();
 }
+
+// class MyHomePageState extends WindowState {
+//   int _counter = 0;
+
+//   Window? otherWindow;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Hoge'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             const Text(
+//               'You have pushed the button this many times:',
+//             ),
+//             Text(
+//               '$_counter',
+//               style: Theme.of(context).textTheme.headline4,
+//             ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: otherWindow == null
+//           ? FloatingActionButton(
+//               onPressed: () async {
+//                 final window = await Window.create(
+//                     configUi.TwitterAuthorizationWindowState.toInitData());
+//               },
+//               tooltip: 'Increment',
+//               child: const Icon(Icons.add),
+//             )
+//           : FloatingActionButton(
+//               onPressed: () async {
+//                 await otherWindow!.close();
+//               },
+//               tooltip: 'Increment',
+//               child: const Icon(Icons.add),
+//             ),
+//     );
+//   }
+
+//   @override
+//   // TODO: implement windowSizingMode
+//   WindowSizingMode get windowSizingMode => throw UnimplementedError();
+// }
