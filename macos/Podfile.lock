@@ -1,0 +1,40 @@
+PODS:
+  - bitsdojo_window_macos (0.0.1):
+    - FlutterMacOS
+  - desktop_multi_window (0.0.1):
+    - FlutterMacOS
+  - eyro_toast (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+  - system_tray (0.0.1):
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - bitsdojo_window_macos (from `Flutter/ephemeral/.symlinks/plugins/bitsdojo_window_macos/macos`)
+  - desktop_multi_window (from `Flutter/ephemeral/.symlinks/plugins/desktop_multi_window/macos`)
+  - eyro_toast (from `Flutter/ephemeral/.symlinks/plugins/eyro_toast/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - system_tray (from `Flutter/ephemeral/.symlinks/plugins/system_tray/macos`)
+
+EXTERNAL SOURCES:
+  bitsdojo_window_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/bitsdojo_window_macos/macos
+  desktop_multi_window:
+    :path: Flutter/ephemeral/.symlinks/plugins/desktop_multi_window/macos
+  eyro_toast:
+    :path: Flutter/ephemeral/.symlinks/plugins/eyro_toast/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  system_tray:
+    :path: Flutter/ephemeral/.symlinks/plugins/system_tray/macos
+
+SPEC CHECKSUMS:
+  bitsdojo_window_macos: 7e9b1bbb09bdce418d9657ead7fc9d824203ff0d
+  desktop_multi_window: 566489c048b501134f9d7fb6a2354c60a9126486
+  eyro_toast: c475b5f18f724a1409b2fc3d5262fe126a7c86d4
+  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  system_tray: e53c972838c69589ff2e77d6d3abfd71332f9e5d
+
+PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
+
+COCOAPODS: 1.11.3
