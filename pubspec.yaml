@@ -37,10 +37,8 @@ dependencies:
   event: ^2.1.2
 
   http_auth: ^1.0.1
-  nativeshell: ^0.1.6
   oauth1: ^1.0.6
-  window_manager: ^0.2.1
-
+  desktop_multi_window: ^0.0.2
   eyro_toast: ^1.0.0
 
 dev_dependencies:
