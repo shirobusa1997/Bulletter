@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  desktop_multi_window
+  eyro_toast
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
