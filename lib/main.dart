@@ -39,9 +39,10 @@ class Choice {
   final String title;
 }
 
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'TWEET'),
-  const Choice(title: 'CONFIG'),
+const List<Choice> choices = <Choice>[
+  Choice(title: 'TWEET'),
+  Choice(title: 'YOUR TWEET'),
+  Choice(title: 'CONFIG'),
 ];
 
 class ChoiceCard extends StatelessWidget {
@@ -51,7 +52,7 @@ class ChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? textStyle = Theme.of(context).textTheme.displayLarge;
+    final TextStyle? textStyle = Theme.of(context).textTheme.displayMedium;
 
     return Card(
       color: Colors.white,
@@ -131,7 +132,6 @@ class MainAppState extends State<MainAppPage> {
         length: choices.length,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Bulletter'),
             bottom: TabBar(
               tabs: choices.map((Choice choice) {
                 return Tab(

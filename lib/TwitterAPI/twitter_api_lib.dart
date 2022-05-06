@@ -8,7 +8,7 @@ import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http_auth/http_auth.dart';
 
 // Toast notification for debug
-// import 'package:eyro_toast/eyro_toast.dart';
+import 'package:eyro_toast/eyro_toast.dart';
 
 // API Key Setting
 import 'package:bulletter/Config/config.dart' as config;
@@ -68,9 +68,9 @@ class TwitterAPIUtil {
       var client = oauth1.Client(
           platform.signatureMethod, clientCredentials, res.credentials);
       // ユーザ情報にアクセス
-      // await EyroToast.showToast(
-      //     text: 'CurrentUser : ' +
-      //         res.optionalParameters['screen_name'].toString());
+      await EyroToast.showToast(
+          text: 'CurrentUser : ' +
+              res.optionalParameters['screen_name'].toString());
     });
   }
 }
