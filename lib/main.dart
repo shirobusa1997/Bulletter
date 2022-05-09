@@ -1,15 +1,22 @@
 import 'dart:io';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:system_tray/system_tray.dart';
+import 'package:eyro_toast/eyro_toast.dart';
 
 import 'package:bulletter/UI/config_interface.dart' as configUi;
 import 'package:bulletter/Config/definitions.dart' as definitions;
-import 'package:system_tray/system_tray.dart';
+
+import 'package:bulletter/UI/main_widget.dart';
 
 void main() {
   // Flutter アプリ本体前に Flutter エンジンを用いる処理を実行できるように設定
   WidgetsFlutterBinding.ensureInitialized();
+
+  // [DEBUG] トースト通知が発行できるように設定
+  EyroToastSetup.shared.navigatorKey = GlobalKey<NavigatorState>();
+
   // Flutter アプリ本体を実行
   runApp(MainApp());
 
@@ -33,43 +40,11 @@ class CommonWindow extends StatelessWidget {
   }
 }
 
-class Choice {
-  const Choice({required this.title});
-
-  final String title;
-}
-
 const List<Choice> choices = <Choice>[
   Choice(title: 'TWEET'),
   Choice(title: 'YOUR TWEET'),
   Choice(title: 'CONFIG'),
 ];
-
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({Key? key, required this.choice}) : super(key: key);
-
-  final Choice choice;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle? textStyle = Theme.of(context).textTheme.displayMedium;
-
-    return Card(
-      color: Colors.white,
-      child: Center(
-          child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            choice.title,
-            style: textStyle,
-          ),
-        ],
-      )),
-    );
-  }
-}
 
 class MainApp extends StatelessWidget {
   MainApp({Key? key}) : super(key: key);
@@ -128,6 +103,7 @@ class MainAppState extends State<MainAppPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: EyroToastSetup.shared.navigatorKey,
       home: DefaultTabController(
         length: choices.length,
         child: Scaffold(
@@ -144,12 +120,23 @@ class MainAppState extends State<MainAppPage> {
             children: choices.map((Choice choice) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ChoiceCard(choice: choice),
+                child: createCardContent(choice),
               );
             }).toList(),
           ),
         ),
       ),
     );
+  }
+
+  ChoiceCard createCardContent(Choice choice) {
+    switch (choice.title) {
+      case 'TWEET':
+        return TweetCard(choice: choice);
+      case 'YOUR TWEET':
+      case 'CONFIG':
+      default:
+        return ChoiceCard(choice: choice);
+    }
   }
 }

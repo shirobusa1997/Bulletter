@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'package:event/event.dart';
+
 // TwitterAuthorizeWindow Definitions
 const String twitterAuthWindowTitle = 'Twitter Authorization';
 const String authTempFileName = '.atemp';
@@ -15,4 +17,18 @@ enum EAppState {
   notAuthorized, // 未認証
   ready, // ツイート準備完了
   updatingStatus, // ツイート送信中(ユーザステータス更新中)
+}
+
+enum EBulletterEventType {
+  pinRequested, // PIN認証要求
+  postRequested, // ツイート要求
+  logoutRequested, // ログアウト要求
+  closeRequested, // アプリ終了要求
+}
+
+class BulletterEventArgs extends EventArgs {
+  EBulletterEventType eventType;
+  String inputValue;
+
+  BulletterEventArgs(this.eventType, this.inputValue);
 }
