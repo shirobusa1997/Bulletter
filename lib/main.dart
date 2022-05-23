@@ -5,7 +5,6 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:system_tray/system_tray.dart';
 import 'package:eyro_toast/eyro_toast.dart';
 
-import 'package:bulletter/UI/config_interface.dart' as configUi;
 import 'package:bulletter/Config/definitions.dart' as definitions;
 
 import 'package:bulletter/UI/main_widget.dart';
@@ -18,7 +17,7 @@ void main() {
   EyroToastSetup.shared.navigatorKey = GlobalKey<NavigatorState>();
 
   // Flutter アプリ本体を実行
-  runApp(MainApp());
+  runApp(const MainApp());
 
   doWhenWindowReady(() {
     final win = appWindow;
@@ -47,7 +46,7 @@ const List<Choice> choices = <Choice>[
 ];
 
 class MainApp extends StatelessWidget {
-  MainApp({Key? key}) : super(key: key);
+  const MainApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

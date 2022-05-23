@@ -1,13 +1,9 @@
-import 'dart:io';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:event/event.dart';
 import 'package:eyro_toast/eyro_toast.dart';
 
 import 'package:bulletter/UI/config_interface.dart' as configUi;
-import 'package:bulletter/Config/definitions.dart' as definitions;
-import 'package:system_tray/system_tray.dart';
 
 class Choice {
   const Choice({required this.title});

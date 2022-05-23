@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'dart:convert';
 
 // OAuth and HTTP Request
 import 'package:bulletter/UI/config_interface.dart';
 import 'package:event/event.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
-import 'package:http_auth/http_auth.dart';
 
 // Toast notification for debug
 import 'package:eyro_toast/eyro_toast.dart';
