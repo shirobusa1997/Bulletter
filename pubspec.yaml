@@ -38,7 +38,9 @@ dependencies:
 
   http_auth: ^1.0.1
   oauth1: ^1.0.6
+  flutter_twitter_login: ^1.1.0
   desktop_multi_window: ^0.0.2
+  desktop_lifecycle: ^0.1.0
   eyro_toast: ^1.0.0
   system_tray: ^0.1.0
   bitsdojo_window: ^0.1.1+1
