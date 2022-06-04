@@ -8,8 +8,9 @@ const String authTempFileName = '.atemp';
 const String appTitle = 'Bulletter';
 const String appIconPath = 'images/3d_file_import3.ico';
 const String appImagePath = 'images/3d_file_import3.png';
-const Size initialSize = Size(600, 450);
-const Size twitterAuthWindowSize = Size(300, 200);
+const double defaultCardPadding = 10.0; // Cardのパディング
+const Size initialSize = Size(400, 300); // ウィジェットの初期サイズ
+const Size twitterAuthWindowSize = Size(300, 200); // PIN認証ウィンドウの初期サイズ
 
 enum EAppState {
   initializing, // 初期化中
@@ -31,4 +32,19 @@ class BulletterEventArgs extends EventArgs {
   String inputValue;
 
   BulletterEventArgs(this.eventType, this.inputValue);
+}
+
+// Bulletter シングルトンファクトリクラス
+
+class BulletterSingleton {
+  // シングルトンインスタンス
+  static final BulletterSingleton _instance = BulletterSingleton._internal();
+
+  // シングルトンのファクトリーメソッド
+  factory BulletterSingleton() {
+    return _instance;
+  }
+
+  // 内部コンストラクタ
+  BulletterSingleton._internal();
 }
