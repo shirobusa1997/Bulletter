@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:event/event.dart';
-
 
 class BulletterPINArgs extends EventArgs {
   String inputValue;
@@ -19,14 +17,19 @@ class TwitterPINRequestWindowState extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            TextField(
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Input PIN from Twitter Page',
+            Expanded(
+              child: TextField(
+                maxLines: null, // wrap text
+                autofocus: true, // 自動でTextFieldをフォーカスさせる
+                autocorrect: true, // 自動でTextFieldを選択状態にさせる
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Input PIN from Twitter Page',
+                ),
+                onChanged: (text) {
+                  inputValue = text;
+                },
               ),
-              onChanged: (text) {
-                inputValue = text;
-              },
             ),
             TextButton(
                 onPressed: () {

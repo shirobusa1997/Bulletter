@@ -41,8 +41,8 @@ class CommonWindow extends StatelessWidget {
 
 const List<Choice> choices = <Choice>[
   Choice(title: 'TWEET'),
-  Choice(title: 'YOUR TWEET'),
   Choice(title: 'CONFIG'),
+  Choice(title: 'DEBUG'),
 ];
 
 class MainApp extends StatelessWidget {
@@ -107,12 +107,17 @@ class MainAppState extends State<MainAppPage> {
         length: choices.length,
         child: Scaffold(
           appBar: AppBar(
-            bottom: TabBar(
-              tabs: choices.map((Choice choice) {
-                return Tab(
-                  text: choice.title,
-                );
-              }).toList(),
+            flexibleSpace: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                TabBar(
+                  tabs: choices.map((Choice choice) {
+                    return Tab(
+                      text: choice.title,
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
           ),
           body: TabBarView(
@@ -130,9 +135,10 @@ class MainAppState extends State<MainAppPage> {
 
   ChoiceCard createCardContent(Choice choice) {
     switch (choice.title) {
+      case 'DEBUG':
+        return DebugCard(choice: choice);
       case 'TWEET':
         return TweetCard(choice: choice);
-      case 'YOUR TWEET':
       case 'CONFIG':
       default:
         return ChoiceCard(choice: choice);
