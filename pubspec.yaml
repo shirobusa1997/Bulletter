@@ -38,7 +38,7 @@ dependencies:
 
   http_auth: ^1.0.1
   oauth1: ^1.0.6
-  flutter_twitter_login: ^1.1.0
+  twitter_api_v2: ^2.4.2
   desktop_multi_window: ^0.0.2
   desktop_lifecycle: ^0.1.0
   eyro_toast: ^1.0.0

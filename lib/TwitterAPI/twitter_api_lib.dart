@@ -3,7 +3,6 @@ import 'dart:convert';
 // OAuth and HTTP Request
 import 'package:bulletter/UI/config_interface.dart';
 import 'package:event/event.dart';
-import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 
 // Toast notification for debug
@@ -47,12 +46,9 @@ class TwitterAPIUtil {
         oauth1.SignatureMethods.hmacSha1);
 
     // クライアント認証の定義
-    // const String apiKey = config.consumer_ApiKey;
-    // const String apiSecret = config.consumer_ApiSecret;
-    // var clientCredentials = oauth1.ClientCredentials(apiKey, apiSecret);
-    var loginCredentials = new TwitterLogin(
-        consumerKey: config.consumer_ApiKey,
-        consumerSecret: config.consumer_ApiSecret);
+    const String apiKey = config.consumer_ApiKey;
+    const String apiSecret = config.consumer_ApiSecret;
+    var clientCredentials = oauth1.ClientCredentials(apiKey, apiSecret);
 
     // クライアント認証とAPI設定から認証用オブジェクトを作成
     // var auth = oauth1.Authorization(clientCredentials, platform);
@@ -73,24 +69,6 @@ class TwitterAPIUtil {
     //       text: 'CurrentUser : ' +
     //           res.optionalParameters['screen_name'].toString());
     // });
-
-    final TwitterLoginResult result = await loginCredentials.authorize();
-
-    switch (result.status) {
-      case TwitterLoginStatus.loggedIn:
-        var session = result.session;
-        EyroToast.showToast(text: "logged in as" + result.session.username);
-        break;
-      case TwitterLoginStatus.cancelledByUser:
-        EyroToast.showToast(
-            text: "authentification cancelled by user.\ntry again.");
-        break;
-      case TwitterLoginStatus.error:
-        EyroToast.showToast(text: "an error occured. \n" + result.errorMessage);
-        break;
-      default:
-        break;
-    }
   }
 }
 

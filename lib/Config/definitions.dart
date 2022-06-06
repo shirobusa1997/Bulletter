@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:event/event.dart';
 
+import 'package:bulletter/TwitterAPI/twitter_api_lib.dart' as twtterAPILib;
+
 // TwitterAuthorizeWindow Definitions
 const String twitterAuthWindowTitle = 'Twitter Authorization';
 const String authTempFileName = '.atemp';
@@ -46,5 +48,5 @@ class BulletterSingleton {
   }
 
   // 内部コンストラクタ
-  BulletterSingleton._internal();
+  BulletterSingleton._internal() {}
 }
