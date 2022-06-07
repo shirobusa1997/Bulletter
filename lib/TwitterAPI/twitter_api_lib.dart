@@ -37,38 +37,37 @@ class OAuthToken {
 
 // WORKING
 class TwitterAPIUtil {
+  // クライアント認証リクエスト用情報
+  final clientCredentials = oauth1.ClientCredentials(
+      config.consumer_ApiKey, config.consumer_ApiSecret);
+
+  // Platform パラメータ定義
+  final platform = oauth1.Platform(
+      'https://api.twitter.com/oauth/request_token', // OAuth リクエストトークンを取得するための POST Request API
+      'https://api.twitter.com/oauth/authorize', // ユーザ認証を行うための GET Request API
+      'https://api.twitter.com/oauth/access_token', // OAuth リクエストトークンをアクセストークンに交換するための POST Request API
+      oauth1.SignatureMethods.hmacSha1);
+
+  // クライアント認証とAPI設定から認証用オブジェクトを作成
+  late final auth = oauth1.Authorization(clientCredentials, platform);
+
   void authorize() async {
-    // Platform パラメータの定義
-    var platform = oauth1.Platform(
-        'https://api.twitter.com/oauth/request_token', // OAuth リクエストトークンを取得するための POST Request API
-        'https://api.twitter.com/oauth/authorize', // ユーザ認証を行うための GET Request API
-        'https://api.twitter.com/oauth/access_token', // OAuth リクエストトークンをアクセストークンに交換するための POST Request API
-        oauth1.SignatureMethods.hmacSha1);
-
-    // クライアント認証の定義
-    const String apiKey = config.consumer_ApiKey;
-    const String apiSecret = config.consumer_ApiSecret;
-    var clientCredentials = oauth1.ClientCredentials(apiKey, apiSecret);
-
-    // クライアント認証とAPI設定から認証用オブジェクトを作成
-    // var auth = oauth1.Authorization(clientCredentials, platform);
-
     // PINを要求
-    // await auth.requestTemporaryCredentials('oob').then((res) async {
-    //   // [USER] Twitter サイト上で認証の上PINコードの入力を要求する
-    //   var event = Event<BulletterPINArgs>();
-    //   var verifier = "";
-    //   event.subscribe((args) => verifier);
-    //   return auth.requestTokenCredentials(res.credentials, verifier);
-    // }).then((res) async {
-    //   // Client オブジェクトを生成
-    //   var client = oauth1.Client(
-    //       platform.signatureMethod, clientCredentials, res.credentials);
-    //   // ユーザ情報にアクセス
-    //   await EyroToast.showToast(
-    //       text: 'CurrentUser : ' +
-    //           res.optionalParameters['screen_name'].toString());
-    // });
+    await auth.requestTemporaryCredentials('oob').then((res) async {
+      // [USER] Twitter サイト上で認証の上PINコードの入力を要求する
+      var event = Event<BulletterPINArgs>();
+      var verifier = "";
+      event.subscribe((args) => verifier);
+      return auth.requestTokenCredentials(res.credentials, verifier);
+    }).then((res) async {
+      // Client オブジェクトを生成
+      var client = oauth1.Client(
+          platform.signatureMethod, clientCredentials, res.credentials);
+      // ユーザ情報にアクセス
+      await EyroToast.showToast(
+          text: 'CurrentUser : ' +
+              res.optionalParameters['screen_name'].toString());
+    });
   }
 }
 
