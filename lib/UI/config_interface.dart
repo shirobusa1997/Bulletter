@@ -65,7 +65,9 @@ class TwitterPINRequestCard extends ChoiceCard {
         padding: const EdgeInsets.all(definitions.defaultCardPadding),
         child: Column(
           children: [
-            TextButton(onPressed: TwitterAPIUtil.instance.authorize(), child: child)
+            TextButton(
+                onPressed: () => TwitterAPIUtil.instance.authorize(),
+                child: const Text('Request Authorize')),
             TextFormField(
               minLines: 1,
               maxLines: 1,
@@ -83,10 +85,23 @@ class TwitterPINRequestCard extends ChoiceCard {
                 onPressed: !definitions.isAuthorizing()
                     ? null
                     : () async {
+                        var event = Event<definitions.BulletterEventArgs>();
+                        event.broadcast(definitions.BulletterEventArgs(
+                            definitions.EBulletterEventType.pinRequested,
+                            _inputVaule));
                         await EyroToast.showToast(
                             text: 'PINCode : ' + _inputVaule);
                       },
                 child: const Text('Authorize')),
+            TextButton(
+                onPressed: !definitions.isAuthorizing()
+                    ? null
+                    : () {
+                        var event = Event<definitions.BulletterEventArgs>();
+                        event.broadcast(definitions.BulletterEventArgs(
+                            definitions.EBulletterEventType.pinRequested, ""));
+                      },
+                child: const Text('Cancel')),
           ],
         ),
       ),
