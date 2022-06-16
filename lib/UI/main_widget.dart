@@ -66,6 +66,7 @@ class TweetCard extends ChoiceCard {
               autocorrect: true,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "Input your tweet"),
+              onChanged: (text) => inputValue = text,
             ),
             TextButton(
                 onPressed: () async {
@@ -77,6 +78,8 @@ class TweetCard extends ChoiceCard {
                   await EyroToast.showToast(
                       text: 'PostRequested: ' + inputValue,
                       duration: ToastDuration.short);
+
+                  inputValue = "";
                 },
                 child: const Text('Tweet')),
           ],

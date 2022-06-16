@@ -10,6 +10,7 @@ import 'package:eyro_toast/eyro_toast.dart';
 
 // API Key Setting
 import 'package:bulletter/Config/config.dart' as config;
+import 'package:twitter_api_v2/twitter_api_v2.dart';
 
 class Base64Util {
   Codec<String, String> stringToBase64 = utf8.fuse(base64);
@@ -37,6 +38,15 @@ class OAuthToken {
 
 // WORKING
 class TwitterAPIUtil {
+  static final TwitterAPIUtil instance = TwitterAPIUtil._internal();
+
+  factory TwitterAPIUtil() {
+    return instance;
+  }
+
+  // 内部コンストラクタ
+  TwitterAPIUtil._internal() {}
+
   // クライアント認証リクエスト用情報
   final clientCredentials = oauth1.ClientCredentials(
       config.consumer_ApiKey, config.consumer_ApiSecret);

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bulletter/UI/config_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:system_tray/system_tray.dart';
@@ -41,6 +42,18 @@ class CommonWindow extends StatelessWidget {
 
 const List<Choice> choices = <Choice>[
   Choice(title: 'TWEET'),
+  Choice(title: 'CONFIG'),
+  Choice(title: 'DEBUG'),
+];
+
+const List<Choice> choicesNonAuth = <Choice>[
+  Choice(title: 'AUTHORIZE'),
+  Choice(title: 'DEBUG'),
+];
+
+const List<Choice> choicesAll = <Choice>[
+  Choice(title: 'TWEET'),
+  Choice(title: 'AUTHORIZE'),
   Choice(title: 'CONFIG'),
   Choice(title: 'DEBUG'),
 ];
@@ -104,14 +117,14 @@ class MainAppState extends State<MainAppPage> {
     return MaterialApp(
       navigatorKey: EyroToastSetup.shared.navigatorKey,
       home: DefaultTabController(
-        length: choices.length,
+        length: choicesAll.length,
         child: Scaffold(
           appBar: AppBar(
             flexibleSpace: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TabBar(
-                  tabs: choices.map((Choice choice) {
+                  tabs: choicesAll.map((Choice choice) {
                     return Tab(
                       text: choice.title,
                     );
@@ -121,7 +134,7 @@ class MainAppState extends State<MainAppPage> {
             ),
           ),
           body: TabBarView(
-            children: choices.map((Choice choice) {
+            children: choicesAll.map((Choice choice) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: createCardContent(choice),
@@ -139,6 +152,8 @@ class MainAppState extends State<MainAppPage> {
         return DebugCard(choice: choice);
       case 'TWEET':
         return TweetCard(choice: choice);
+      case 'AUTHORIZE':
+        return TwitterPINRequestCard(choice: choice);
       case 'CONFIG':
       default:
         return ChoiceCard(choice: choice);

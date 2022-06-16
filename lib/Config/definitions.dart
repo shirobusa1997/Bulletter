@@ -29,6 +29,14 @@ enum EBulletterEventType {
   closeRequested, // アプリ終了要求
 }
 
+bool isReady() {
+  return BulletterSingleton.instance.appState == EAppState.ready;
+}
+
+bool isAuthorizing() {
+  return BulletterSingleton.instance.appState == EAppState.authorizing;
+}
+
 class BulletterEventArgs extends EventArgs {
   EBulletterEventType eventType;
   String inputValue;
@@ -40,13 +48,16 @@ class BulletterEventArgs extends EventArgs {
 
 class BulletterSingleton {
   // シングルトンインスタンス
-  static final BulletterSingleton _instance = BulletterSingleton._internal();
+  static final BulletterSingleton instance = BulletterSingleton._internal();
 
   // シングルトンのファクトリーメソッド
   factory BulletterSingleton() {
-    return _instance;
+    return instance;
   }
 
   // 内部コンストラクタ
   BulletterSingleton._internal() {}
+
+  // アプリケーションステート
+  EAppState appState = EAppState.initializing;
 }
