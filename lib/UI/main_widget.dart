@@ -10,6 +10,8 @@ import 'package:eyro_toast/eyro_toast.dart';
 import 'package:bulletter/UI/config_interface.dart' as configUi;
 import 'package:bulletter/Config/definitions.dart' as definitions;
 import 'package:bulletter/TwitterAPI/twitter_api_lib.dart' as twitterAPI;
+import 'package:bulletter/UI/provider.dart';
+import 'package:provider/provider.dart';
 
 class Choice {
   const Choice({required this.title});
@@ -52,37 +54,40 @@ class TweetCard extends ChoiceCard {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(definitions.defaultCardPadding),
-        child: Column(
-          children: [
-            TextFormField(
-              minLines: 3,
-              maxLines: 3,
-              keyboardType: TextInputType.multiline,
-              autofocus: true,
-              autocorrect: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Input your tweet"),
-              onChanged: (text) => inputValue = text,
-            ),
-            TextButton(
-                onPressed: () async {
-                  // イベント通知に乗せるパラメタを設定
-                  var args = Event<configUi.BulletterPINArgs>();
-                  // サブスクライバーにイベントをブロードキャスト
-                  args.broadcast(configUi.BulletterPINArgs(inputValue));
+    return ChangeNotifierProvider<CardProvider>(
+      create: (_) => CardProvider(),
+      child: Card(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(definitions.defaultCardPadding),
+          child: Column(
+            children: [
+              TextFormField(
+                minLines: 3,
+                maxLines: 3,
+                keyboardType: TextInputType.multiline,
+                autofocus: true,
+                autocorrect: true,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Input your tweet"),
+                onChanged: (text) => inputValue = text,
+              ),
+              TextButton(
+                  onPressed: () async {
+                    // イベント通知に乗せるパラメタを設定
+                    var args = Event<configUi.BulletterPINArgs>();
+                    // サブスクライバーにイベントをブロードキャスト
+                    args.broadcast(configUi.BulletterPINArgs(inputValue));
 
-                  await EyroToast.showToast(
-                      text: 'PostRequested: ' + inputValue,
-                      duration: ToastDuration.short);
+                    await EyroToast.showToast(
+                        text: 'PostRequested: ' + inputValue,
+                        duration: ToastDuration.short);
 
-                  inputValue = "";
-                },
-                child: const Text('Tweet')),
-          ],
+                    inputValue = "";
+                  },
+                  child: const Text('Tweet')),
+            ],
+          ),
         ),
       ),
     );
@@ -126,7 +131,7 @@ class DebugCard extends ChoiceCard {
             onPressed: () async {
               EyroToast.showToast(text: 'Toast Nortification Test');
               // Twitter アカウント認証
-              twitterAPI.TwitterAPIUtil().authorize();
+              twitterAPI.TwitterAPIUtil().requestAuthorize();
             },
             child: const Text('Twitter Authentification Test'),
           ),

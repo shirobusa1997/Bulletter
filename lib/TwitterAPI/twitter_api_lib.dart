@@ -3,6 +3,7 @@ import 'dart:convert';
 // OAuth and HTTP Request
 import 'package:bulletter/UI/config_interface.dart';
 import 'package:event/event.dart';
+import 'package:flutter/material.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 
 // Toast notification for debug
@@ -11,6 +12,10 @@ import 'package:eyro_toast/eyro_toast.dart';
 // API Key Setting
 import 'package:bulletter/Config/config.dart' as config;
 import 'package:twitter_api_v2/twitter_api_v2.dart';
+
+// URL Launch
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class Base64Util {
   Codec<String, String> stringToBase64 = utf8.fuse(base64);
@@ -60,16 +65,26 @@ class TwitterAPIUtil {
 
   // クライアント認証とAPI設定から認証用オブジェクトを作成
   late final auth = oauth1.Authorization(clientCredentials, platform);
+  oauth1.Credentials? tokenCredentials;
 
-  void authorize() async {
-    // PINを要求
+  // OS既定のWebブラウザでTwitterログイン用ページを開く
+  void requestAuthorize() async {
     await auth.requestTemporaryCredentials('oob').then((res) async {
-      // [USER] Twitter サイト上で認証の上PINコードの入力を要求する
-      var event = Event<BulletterPINArgs>();
-      var verifier = "";
-      event.subscribe((args) => verifier);
-      return auth.requestTokenCredentials(res.credentials, verifier);
-    }).then((res) async {
+      // 資格情報を取得
+      tokenCredentials = res.credentials;
+
+      // 既定のWebブラウザでログイン用URLを開く
+      launchUrlString(
+          auth.getResourceOwnerAuthorizationURI(tokenCredentials!.token));
+    });
+  }
+
+  void authorize(String pin) async {
+    // ユーザ情報を取得
+    final verifier = pin;
+    final res = await auth
+        .requestTokenCredentials(tokenCredentials!, verifier)
+        .then((res) async {
       // Client オブジェクトを生成
       var client = oauth1.Client(
           platform.signatureMethod, clientCredentials, res.credentials);

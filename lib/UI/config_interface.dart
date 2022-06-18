@@ -1,8 +1,10 @@
 import 'package:bulletter/TwitterAPI/twitter_api_lib.dart';
 import 'package:bulletter/UI/main_widget.dart';
 import 'package:bulletter/Config/definitions.dart' as definitions;
+import 'package:bulletter/UI/provider.dart';
 import 'package:eyro_toast/eyro_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:event/event.dart';
 import 'package:twitter_api_v2/twitter_api_v2.dart';
@@ -60,49 +62,50 @@ class TwitterPINRequestCard extends ChoiceCard {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(definitions.defaultCardPadding),
-        child: Column(
-          children: [
-            TextButton(
-                onPressed: () => TwitterAPIUtil.instance.authorize(),
-                child: const Text('Request Authorize')),
-            TextFormField(
-              minLines: 1,
-              maxLines: 1,
-              keyboardType: TextInputType.number,
-              autofocus: true,
-              autocorrect: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Input PIN Code from Twitter",
+    return ChangeNotifierProvider(
+      create: (_) => CardProvider(),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(definitions.defaultCardPadding),
+          child: Column(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    TwitterAPIUtil.instance.requestAuthorize();
+                  },
+                  child: const Text('Request Authorize')),
+              TextFormField(
+                minLines: 1,
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                autofocus: true,
+                autocorrect: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Input PIN Code from Twitter",
+                ),
+                onChanged:
+                    !definitions.isAuthorizing() ? null : (text) => _inputVaule,
               ),
-              onChanged:
-                  !definitions.isAuthorizing() ? null : (text) => _inputVaule,
-            ),
-            TextButton(
-                onPressed: !definitions.isAuthorizing()
-                    ? null
-                    : () async {
-                        var event = Event<definitions.BulletterEventArgs>();
-                        event.broadcast(definitions.BulletterEventArgs(
-                            definitions.EBulletterEventType.pinRequested,
-                            _inputVaule));
-                        await EyroToast.showToast(
-                            text: 'PINCode : ' + _inputVaule);
-                      },
-                child: const Text('Authorize')),
-            TextButton(
-                onPressed: !definitions.isAuthorizing()
-                    ? null
-                    : () {
-                        var event = Event<definitions.BulletterEventArgs>();
-                        event.broadcast(definitions.BulletterEventArgs(
-                            definitions.EBulletterEventType.pinRequested, ""));
-                      },
-                child: const Text('Cancel')),
-          ],
+              TextButton(
+                  onPressed: !definitions.isAuthorizing()
+                      ? null
+                      : () async {
+                          var event = Event<definitions.BulletterEventArgs>();
+                          event.broadcast(definitions.BulletterEventArgs(
+                              definitions.EBulletterEventType.pinRequested,
+                              _inputVaule));
+                          await EyroToast.showToast(
+                              text: 'PINCode : ' + _inputVaule);
+                        },
+                  child: const Text('Authorize')),
+              TextButton(
+                  onPressed: !definitions.isAuthorizing()
+                      ? null
+                      : () => TwitterAPIUtil.instance.authorize(_inputVaule),
+                  child: const Text('Cancel')),
+            ],
+          ),
         ),
       ),
     );
