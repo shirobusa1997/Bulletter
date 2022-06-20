@@ -45,7 +45,6 @@ dependencies:
   system_tray:
   bitsdojo_window:
   provider:
-  quick_notify:
   url_launcher:
 
 dev_dependencies:
