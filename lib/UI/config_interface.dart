@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bulletter/TwitterAPI/twitter_api_lib.dart';
 import 'package:bulletter/UI/main_widget.dart';
 import 'package:bulletter/Config/definitions.dart' as definitions;
@@ -58,7 +60,7 @@ class TwitterPINRequestCard extends ChoiceCard {
       : super(key: key, choice: choice);
 
   // PINコードの受け取り
-  String _inputVaule = "";
+  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,8 @@ class TwitterPINRequestCard extends ChoiceCard {
               TextButton(
                   onPressed: () {
                     TwitterAPIUtil.instance.requestAuthorize();
+                    CardProvider().requestChangeAppState(
+                        definitions.EAppState.authorizing);
                   },
                   child: const Text('Request Authorize')),
               TextFormField(
@@ -84,25 +88,23 @@ class TwitterPINRequestCard extends ChoiceCard {
                   border: OutlineInputBorder(),
                   hintText: "Input PIN Code from Twitter",
                 ),
-                onChanged:
-                    !definitions.isAuthorizing() ? null : (text) => _inputVaule,
+                controller: controller,
               ),
               TextButton(
                   onPressed: !definitions.isAuthorizing()
                       ? null
                       : () async {
-                          var event = Event<definitions.BulletterEventArgs>();
-                          event.broadcast(definitions.BulletterEventArgs(
-                              definitions.EBulletterEventType.pinRequested,
-                              _inputVaule));
-                          await EyroToast.showToast(
-                              text: 'PINCode : ' + _inputVaule);
+                          final pin = controller.text;
+                          await EyroToast.showToast(text: 'PINCode : ' + pin);
+                          TwitterAPIUtil.instance.authorize(pin);
                         },
                   child: const Text('Authorize')),
               TextButton(
                   onPressed: !definitions.isAuthorizing()
                       ? null
-                      : () => TwitterAPIUtil.instance.authorize(_inputVaule),
+                      : () async {
+                          await EyroToast.showToast(text: 'Canceled');
+                        },
                   child: const Text('Cancel')),
             ],
           ),

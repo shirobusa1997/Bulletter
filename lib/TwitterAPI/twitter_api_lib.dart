@@ -82,17 +82,21 @@ class TwitterAPIUtil {
   void authorize(String pin) async {
     // ユーザ情報を取得
     final verifier = pin;
-    final res = await auth
-        .requestTokenCredentials(tokenCredentials!, verifier)
-        .then((res) async {
-      // Client オブジェクトを生成
-      var client = oauth1.Client(
-          platform.signatureMethod, clientCredentials, res.credentials);
-      // ユーザ情報にアクセス
-      await EyroToast.showToast(
-          text: 'CurrentUser : ' +
-              res.optionalParameters['screen_name'].toString());
-    });
+    final res = await auth.requestTokenCredentials(tokenCredentials!, verifier);
+
+    // Client オブジェクトを生成
+    final client = oauth1.Client(
+        platform.signatureMethod, clientCredentials, res.credentials);
+
+    final apiResponse = await client.get(
+      Uri.parse(
+          'https://api.twitter.com/1.1/statuses/home_timeline.json?count=1'),
+    );
+
+    print(apiResponse.body);
+
+    // ユーザ情報にアクセス
+    await EyroToast.showToast(text: apiResponse.body);
   }
 }
 
