@@ -42,6 +42,7 @@ dependencies:
   desktop_multi_window:
   desktop_lifecycle:
   eyro_toast:
+  flutter_dotenv:
   system_tray:
   bitsdojo_window:
   provider:
