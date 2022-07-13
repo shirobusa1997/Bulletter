@@ -43,8 +43,10 @@ dependencies:
   desktop_lifecycle:
   eyro_toast:
   flutter_dotenv:
+  flutter_riverpod:
   system_tray:
   bitsdojo_window:
+  path_provider:
   provider:
   url_launcher:
 
