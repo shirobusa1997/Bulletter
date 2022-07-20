@@ -79,6 +79,8 @@ class TweetCard extends ChoiceCard {
                     // サブスクライバーにイベントをブロードキャスト
                     args.broadcast(configUi.BulletterPINArgs(inputValue));
 
+                    twitterAPI.TwitterAPIUtil.instance.tweet(inputValue);
+
                     await EyroToast.showToast(
                         text: 'PostRequested: ' + inputValue,
                         duration: ToastDuration.short);

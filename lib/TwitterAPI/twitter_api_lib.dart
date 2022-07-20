@@ -1,21 +1,24 @@
+// Dart Core Lib
 import 'dart:convert';
 
-// OAuth and HTTP Request
+// OAuth and HTTP request
 import 'package:bulletter/UI/config_interface.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 
-// Toast notification for debug
-import 'package:eyro_toast/eyro_toast.dart';
-
-// API Key Setting
+// API Key setting
 import 'package:bulletter/Config/config.dart' as config;
-import 'package:twitter_api_v2/twitter_api_v2.dart';
 
-// URL Launch
+// URL launcher
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+// Twitter API wrapper
+import 'package:twitter_api_v2/twitter_api_v2.dart' as v2;
+
+// Toast notification for debug
+import 'package:eyro_toast/eyro_toast.dart';
 
 class Base64Util {
   Codec<String, String> stringToBase64 = utf8.fuse(base64);
@@ -67,6 +70,9 @@ class TwitterAPIUtil {
   late final auth = oauth1.Authorization(clientCredentials, platform);
   oauth1.Credentials? tokenCredentials;
 
+  // TwitterAPIV2 オブジェクト
+  v2.TwitterApi twitter = new v2.TwitterApi(bearerToken: "");
+
   // OS既定のWebブラウザでTwitterログイン用ページを開く
   void requestAuthorize() async {
     await auth.requestTemporaryCredentials('oob').then((res) async {
@@ -93,10 +99,25 @@ class TwitterAPIUtil {
           'https://api.twitter.com/1.1/statuses/home_timeline.json?count=1'),
     );
 
-    print(apiResponse.body);
+    twitter = v2.TwitterApi(
+      bearerToken: config.consumer_Bearer,
+      oauthTokens: v2.OAuthTokens(
+          consumerKey: config.consumer_ApiKey,
+          consumerSecret: config.consumer_ApiSecret,
+          accessToken: res.credentials.token,
+          accessTokenSecret: res.credentials.tokenSecret),
+    );
+
+    final me = await twitter.usersService.lookupMe();
 
     // ユーザ情報にアクセス
-    await EyroToast.showToast(text: apiResponse.body);
+    await EyroToast.showToast(text: "Authorized: " + me.data.username);
+  }
+
+  void tweet(String content) async {
+    final me = await twitter.tweetsService.createTweet(text: content);
+
+    await EyroToast.showToast(text: "Tweeted" + content);
   }
 }
 
